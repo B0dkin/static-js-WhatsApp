@@ -146,7 +146,7 @@
                 })
                 .catch((error) => {
                     console.error(error);
-                    resultText.textContent = `${error}`;
+                    resultText.textContent = (error);
                 });
         });
 // sendFileByUrl method
@@ -155,7 +155,7 @@
             const idInstance = document.getElementById("idInstance").value
             const chatId = document.getElementById("phoneNumber-uploadByUrl").value + '@c.us';
             const url = document.getElementById('fileByUrl').value;
-            const fileName = document.getElementById('fileByUrl').value.match(/.*\/(.*)$/)[1];;
+            const fileName = document.getElementById('fileByUrl').value.match(/.*\/(.*)$/)[1];
             const resultText = document.getElementById("outputArea");
 
             const restAPI = whatsAppClient.restAPI({
