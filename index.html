@@ -128,7 +128,7 @@
 
 // chatId check
 		function formatChatId(chatId) {
-			if (!chatId.endsWith('@c.us')) {
+			if (!chatId.endsWith('@c.us') && !chatId.endsWith('@g.us')) {
 				chatId += '@c.us';
 			}
 			return chatId;
