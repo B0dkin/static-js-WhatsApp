@@ -109,8 +109,8 @@
             </form>
             <form class="form-wrapper" id="sendFileByUrl">
                 <div class="date-container">
+					<input required type="tel" id="phoneNumber-uploadByUrl" name="phoneNumber" value="" placeholder="77771234567">
                     <input type="text" id="fileByUrl" name="fileUrl" placeholder="Write your URL">
-                    <input required type="tel" id="phoneNumber-uploadByUrl" name="phoneNumber" value="" placeholder="77771234567">
                     <button id="SendFileByUrlWhatsAppBtn" type="button" class="button buttonGreen">sendFileByUrl</button>
                 </div>
             </form>
@@ -126,11 +126,19 @@
         const link = 'https://api.green-api.com/waInstance';
         const chatIds = [];
 
+// chatId check
+		function formatChatId(chatId) {
+			if (!chatId.endsWith('@c.us')) {
+				chatId += '@c.us';
+			}
+			return chatId;
+		}
+
 // sendMessage method
         document.getElementById("SendWhatsAppBtn").addEventListener("click", function () {
             const apiTokenInstance = document.getElementById("apiTokenIsntance").value;
             const idInstance = document.getElementById("idInstance").value;
-            const chatId = document.getElementById("phoneNumber").value + '@c.us';
+            let chatId = document.getElementById("phoneNumber").value;
             const message = document.getElementById("messageText").value;
             const resultText = document.getElementById("outputArea");
 
@@ -138,6 +146,8 @@
                 idInstance: idInstance,
                 apiTokenInstance: apiTokenInstance
             });
+			
+			chatId = formatChatId(chatId);
 
             restAPI.message.sendMessage(chatId, null, message)
             .then((data) => {
@@ -152,8 +162,8 @@
 // sendFileByUrl method
         document.getElementById("SendFileByUrlWhatsAppBtn").addEventListener("click", () => {
             const apiTokenInstance = document.getElementById("apiTokenIsntance").value;
-            const idInstance = document.getElementById("idInstance").value
-            const chatId = document.getElementById("phoneNumber-uploadByUrl").value + '@c.us';
+            const idInstance = document.getElementById("idInstance").value;
+            let chatId = document.getElementById("phoneNumber-uploadByUrl").value;
             const url = document.getElementById('fileByUrl').value;
             const fileName = document.getElementById('fileByUrl').value.match(/.*\/(.*)$/)[1];
             const resultText = document.getElementById("outputArea");
@@ -161,7 +171,9 @@
             const restAPI = whatsAppClient.restAPI({
                 idInstance: idInstance,
                 apiTokenInstance: apiTokenInstance
-            });
+            })
+
+			chatId = formatChatId(chatId);
 
             restAPI.file.sendFileByUrl(chatId, null, url, fileName, null).then((data) => {
                 console.log(data.idMessage);
